@@ -1,19 +1,17 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Navbar from "./Class_components/Navbar";
-import News from "./Class_components/News";
-// import Navbar from './components/Navbar';
-// import News from './components/News';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Headers from "./Components/Headers";
 
-function App() {
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import News from "./Components/News";
+
+const App = () => {
+  // const pageSize = 6;
+  const apikey = process.env.REACT_APP_NEWS_API;
   return (
     <div>
       <Router>
-        {/* <Navbar />
-      <News /> */}
-
-        <Navbar />
+        <Headers />
         <Routes>
           <Route
             exact
@@ -21,7 +19,7 @@ function App() {
             element={
               <News
                 key="top-headlines"
-                pageSize={5}
+                pageSize={6}
                 country="us"
                 category="top-headlines"
               />
@@ -33,7 +31,7 @@ function App() {
             element={
               <News
                 key="Business"
-                pageSize="5"
+                pageSize="6"
                 country="us"
                 category="Business"
               />
@@ -45,7 +43,7 @@ function App() {
             element={
               <News
                 key="Entertainment"
-                pageSize="5"
+                pageSize="6"
                 country="us"
                 category="Entertainment"
               />
@@ -57,7 +55,7 @@ function App() {
             element={
               <News
                 key="General"
-                pageSize="5"
+                pageSize="6"
                 country="us"
                 category="General"
               />
@@ -67,7 +65,7 @@ function App() {
             exact
             path="/Health"
             element={
-              <News key="Health" pageSize="5" country="us" category="Health" />
+              <News key="Health" pageSize="6" country="us" category="Health" />
             }
           ></Route>
           <Route
@@ -76,7 +74,7 @@ function App() {
             element={
               <News
                 key="Science"
-                pageSize="5"
+                pageSize="6"
                 country="us"
                 category="Science"
               />
@@ -86,7 +84,7 @@ function App() {
             exact
             path="/Sports"
             element={
-              <News key="Sports" pageSize="5" country="us" category="Sports" />
+              <News key="Sports" pageSize="6" country="us" category="Sports" />
             }
           ></Route>
           <Route
@@ -95,7 +93,7 @@ function App() {
             element={
               <News
                 key="Technology "
-                pageSize="5"
+                pageSize="6"
                 country="us"
                 category="Technology"
               />
@@ -105,6 +103,6 @@ function App() {
       </Router>
     </div>
   );
-}
+};
 
 export default App;

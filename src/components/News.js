@@ -1,15 +1,68 @@
-import React from 'react'
-import NewsItem from './NewsItem'
+import React from "react";
+import { useState, useEffect } from "react";
+import NewsItem from "./NewsItem";
 
-export default function News() {
-    return (
-        <div className='container my-3'>
-            <h2>Study News: Top Headlines</h2>
-            <div className="row">
-                <div className="col-md-4">
-                    <NewsItem title='muTitle' description='Daily News' imageUrl='https://live-production.wcms.abc-cdn.net.au/d718618805e29f723e0fa707421b0079?impolicy=wcms_crop_resize&cropH=2268&cropW=4032&xPos=0&yPos=0&width=862&height=485 ' />
-                </div>
-            </div>
+const News = (props) => {
+  const [articles, setArticles] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalResults, setTotalResults] = useState(0);
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  const updateNews = async () => {
+    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=efa056db1c544ecda614e5741ac27766&page=1&pageSize=${props.pageSize}`;
+    let data = await fetch(url);
+    let parsedData = await data.json();
+    setArticles(parsedData.articles);
+    setTotalResults(parsedData.totalResults);
+  };
+  useEffect(() => {
+    document.title = `${capitalizeFirstLetter(props.category)} - NewsMonkey`;
+    updateNews();
+    // eslint-disable-next-line
+  }, []);
+  const fetchMoreData = async () => {
+    const url = `https://newsapi.org/v2/top-headlines?country=${
+      props.country
+    }&category=${props.category}&apiKey=${props.apiKey}&page=${
+      page + 1
+    }&pageSize=${props.pageSize}`;
+    setPage(page + 1);
+    let data = await fetch(url);
+    let parsedData = await data.json();
+    setArticles(articles.concat(parsedData.articles));
+    setTotalResults(parsedData.totalResults);
+  };
+  return (
+    <>
+      <h1
+        className="text-center"
+        style={{ margin: "35px 0px", marginTop: "90px" }}
+      >
+        NewsMonkey - Top {capitalizeFirstLetter(props.category)} Headlines
+      </h1>
+      <div className="container">
+        <div className="row">
+          {articles.map((element) => {
+            return (
+              <div className="col-md-4" key={element.url}>
+                <NewsItem
+                  title={element.title ? element.title : ""}
+                  description={element.description ? element.description : ""}
+                  imageUrl={element.urlToImage}
+                  newsUrl={element.url}
+                  author={element.author}
+                  date={element.publishedAt}
+                  source={element.source.name}
+                />
+              </div>
+            );
+          })}
         </div>
-    )
-}
+      </div>
+    </>
+  );
+};
+
+export default News;
