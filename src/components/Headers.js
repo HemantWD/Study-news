@@ -4,7 +4,7 @@ const Headers = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-light">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
+        <a className="navbar-brand" href="/business">
           Study News
         </a>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
